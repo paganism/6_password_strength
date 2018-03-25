@@ -11,18 +11,20 @@ def get_password_blacklist():
 
 
 def get_password_strength(password):
+    length_criteria = 6
     rating = 0
+    password_blacklist = get_password_blacklist()
+    if password in password_blacklist:
+        rating = 1
+        sys.exit('Password in black list. Exit...')
     if re.search(r'\d', password):
         rating += 2
     if re.search(r'[a-z]', password) and re.search(r'[A-Z]', password):
         rating += 2
     if re.search(r'[{}]'.format(punctuation), password):
         rating += 3
-    if len(password) > 6:
+    if len(password) > length_criteria:
         rating +=1
-    password_blacklist = get_password_blacklist()
-    if password_blacklist.count(password) > 0:
-        rating = 1
     else:
         rating += 2
     return rating
