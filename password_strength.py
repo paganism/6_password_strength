@@ -1,11 +1,12 @@
 import sys
 import re
 from string import punctuation
+import getpass
 
 
 def get_password_blacklist():
     with open('pass.txt', 'r') as file:
-        black_list = file.read().split()
+        black_list = file.read().split('\n')
         return black_list
 
 
@@ -16,7 +17,9 @@ def get_password_strength(password):
     if re.search(r'[a-z]', password) and re.search(r'[A-Z]', password):
         rating += 2
     if re.search(r'[{}]'.format(punctuation), password):
-        rating += 4
+        rating += 3
+    if len(password) > 6:
+        rating +=1
     password_blacklist = get_password_blacklist()
     if password_blacklist.count(password) > 0:
         rating = 1
@@ -26,5 +29,5 @@ def get_password_strength(password):
 
 
 if __name__ == '__main__':
-    password = sys.argv[1]
+    password = getpass.getpass()
     print(get_password_strength(password))
