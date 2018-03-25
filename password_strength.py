@@ -16,7 +16,7 @@ def get_password_strength(password):
     password_blacklist = get_password_blacklist()
     if password in password_blacklist:
         rating = 1
-        sys.exit('Password in black list. Exit...')
+        return rating
     if re.search(r'\d', password):
         rating += 2
     if re.search(r'[a-z]', password) and re.search(r'[A-Z]', password):
